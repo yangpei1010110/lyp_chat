@@ -1,7 +1,7 @@
 package com.lyp.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @Slf4j
 @ServerEndpoint("/ws/user")
-@Controller
+@RestController
 public class WebSocketController {
     private static final AtomicLong userCounter = new AtomicLong(0);
     private static CopyOnWriteArraySet<Session> sessionSet = new CopyOnWriteArraySet<>();

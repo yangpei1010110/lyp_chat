@@ -6,12 +6,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -20,7 +19,7 @@ import java.util.UUID;
 import java.util.stream.Stream;
 
 @Slf4j
-@Controller
+@RestController
 @RequestMapping("/user")
 //@CrossOrigin(origins = "*", maxAge = 3600)
 public class UserController {
@@ -32,7 +31,6 @@ public class UserController {
      * 为游客或用户获取一个随机id
      */
     @GetMapping("/uuid")
-    @ResponseBody
     private String getUUID() {
         return UUID.randomUUID().toString();
     }
@@ -41,7 +39,6 @@ public class UserController {
      * 验证码的验证接口
      */
     @GetMapping("/test-verify-code")
-    @ResponseBody
     private String testVerifyCode(String verifyCode, HttpSession session) {
         if (StringUtils.isEmpty(verifyCode)) {
             return "verify parameter error";
@@ -75,7 +72,6 @@ public class UserController {
      * 更新验证码
      */
     @GetMapping("/update-verify-code")
-    @ResponseBody
     private String updateVerify(HttpSession session) {
         session.setAttribute("verifyCode", VerifyCodeUtils.generateVerifyCode(4));
         return "success";
@@ -91,7 +87,6 @@ public class UserController {
      * @param session  用于存放服务器端验证码
      */
     @PostMapping("/login")
-    @ResponseBody
     private String login(String username, String password, Boolean remember, String verifyString, HttpSession session) {
         //根据线程id获取到不同的subject
         Subject subject = SecurityUtils.getSubject();
@@ -113,14 +108,12 @@ public class UserController {
 
     //测试是否登录
     @GetMapping("/test")
-    @ResponseBody
     private String test(String username, String password, String remember, String pin) {
         return String.valueOf(SecurityUtils.getSubject().isAuthenticated());
     }
 
     //登出
     @GetMapping("/logout")
-    @ResponseBody
     private String logout() {
         SecurityUtils.getSubject().logout();
         return "访问成功登出";
@@ -128,7 +121,6 @@ public class UserController {
 
     //注册
     @PostMapping("/logon")
-    @ResponseBody
     private String logon(String username, String password, String verifyString, HttpSession session) {
         log.info(String.format("logon username:%s password:%s verifyString:%s",username,password,verifyString));
         Stream.of(session.getAttributeNames()).forEach(d->{

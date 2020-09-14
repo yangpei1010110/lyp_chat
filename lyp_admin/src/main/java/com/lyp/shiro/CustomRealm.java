@@ -15,8 +15,10 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
 
 public class CustomRealm extends AuthorizingRealm {
     @Autowired
@@ -42,7 +44,7 @@ public class CustomRealm extends AuthorizingRealm {
                     f.addAll(s);
                     return f;
                 })
-                .get()
+                .orElse(new ArrayList<>())
                 .stream()
                 .distinct()//权限去重
                 .collect(Collectors.toList());
