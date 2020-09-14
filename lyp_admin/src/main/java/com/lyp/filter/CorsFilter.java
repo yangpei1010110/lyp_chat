@@ -1,7 +1,6 @@
 package com.lyp.filter;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -9,9 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Slf4j
 @WebFilter(urlPatterns = {"/*"})
 public class CorsFilter implements Filter {
-    Logger log = LoggerFactory.getLogger(CorsFilter.class);
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {

@@ -6,6 +6,7 @@ import com.lyp.entity.User;
 import com.lyp.service.UserService;
 import com.lyp.utils.ChatHash;
 import com.lyp.utils.VerifyCodeUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
@@ -43,16 +45,18 @@ public class UserServiceImpl implements UserService {
         try {
             //尝试登陆
             subject.login(new UsernamePasswordToken(username, password, remember));
+
+
         }catch (AuthenticationException authenticationException){
             authenticationException.printStackTrace();
-        }finally {
-            if (subject.isAuthenticated()) {
-                session.removeAttribute("verifyCode");//登录成功后删除验证码
-                return "登陆成功";
-            } else {
-                session.setAttribute("verifyCode", VerifyCodeUtils.generateVerifyCode(4));//登录失败更新验证码
-                return "登陆失败";
-            }
+        }
+
+        if (subject.isAuthenticated()) {
+            session.removeAttribute("verifyCode");//登录成功后删除验证码
+            return "登陆成功";
+        } else {
+            session.setAttribute("verifyCode", VerifyCodeUtils.generateVerifyCode(4));//登录失败更新验证码
+            return "登陆失败";
         }
     }
 

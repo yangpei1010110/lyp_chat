@@ -2,10 +2,9 @@ package com.lyp.controller;
 
 import com.lyp.service.UserService;
 import com.lyp.utils.VerifyCodeUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -20,11 +19,11 @@ import java.io.IOException;
 import java.util.UUID;
 import java.util.stream.Stream;
 
+@Slf4j
 @Controller
 @RequestMapping("/user")
 //@CrossOrigin(origins = "*", maxAge = 3600)
 public class UserController {
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserService userService;
@@ -66,7 +65,7 @@ public class UserController {
 
         try {
             VerifyCodeUtils.outputImage(250, 35, response.getOutputStream(), (String) session.getAttribute("verifyCode"));
-            logger.info("获取一次验证码图片 验证码:"+session.getAttribute("verifyCode")+" sessionId:"+session.getId());
+            log.info("获取一次验证码图片 验证码:"+session.getAttribute("verifyCode")+" sessionId:"+session.getId());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -131,10 +130,10 @@ public class UserController {
     @PostMapping("/logon")
     @ResponseBody
     private String logon(String username, String password, String verifyString, HttpSession session) {
-        logger.info(String.format("logon username:%s password:%s verifyString:%s",username,password,verifyString));
+        log.info(String.format("logon username:%s password:%s verifyString:%s",username,password,verifyString));
         Stream.of(session.getAttributeNames()).forEach(d->{
             String tempString = d.nextElement();
-            logger.info(tempString+" : "+session.getAttribute(tempString));
+            log.info(tempString+" : "+session.getAttribute(tempString));
         });
         return userService.logonUser(username, password, verifyString.toLowerCase(), session);
     }
