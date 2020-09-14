@@ -18,8 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpSession;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 
 
 @Slf4j
@@ -38,14 +39,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public String loginUser(Subject subject, String username, String password, Boolean remember, String verifyString, HttpSession session) {
 
-        if (remember == null){
+        if (remember == null) {
             remember = false;
         }
 
         try {
             //尝试登陆
             subject.login(new UsernamePasswordToken(username, password, remember));
-        }catch (AuthenticationException authenticationException){
+        } catch (AuthenticationException authenticationException) {
             authenticationException.printStackTrace();
         }
 
@@ -61,9 +62,9 @@ public class UserServiceImpl implements UserService {
     /**
      * 用户注册
      *
-     * @param username 注册用户名
-     * @param password 注册密码
-     * @param verifyString      注册验证码（必须)
+     * @param username     注册用户名
+     * @param password     注册密码
+     * @param verifyString 注册验证码（必须)
      */
     @Override
     public String logonUser(String username, String password, String verifyString, HttpSession session) {
@@ -71,10 +72,10 @@ public class UserServiceImpl implements UserService {
                 && !String.valueOf(session.getAttribute("verifyCode")).toLowerCase().equals(verifyString)) {
             session.setAttribute("verifyCode", VerifyCodeUtils.generateVerifyCode(4));//注册失败更新验证码
             return "验证码错误";
-        } else if(StringUtils.isEmpty(username) || StringUtils.isEmpty(password) || StringUtils.isEmpty(verifyString)){
+        } else if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password) || StringUtils.isEmpty(verifyString)) {
             return "提交信息不全";
-        }else if (userDao.findByUsernameEquals(username) != null) {
-            
+        } else if (userDao.findByUsernameEquals(username) != null) {
+
             return "用户名已存在";
         }
 
@@ -85,8 +86,8 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setUsername(username);
         user.setPassword(encodePassword);
-        user.setCreateDate(new Date());
-        user.setModifyDate(new Date());
+        user.setCreateDate(Timestamp.from(Instant.now()));
+        user.setModifyDate(Timestamp.from(Instant.now()));
 
         if (user.getUserRoleList() == null) {
             user.setUserRoleList(new ArrayList<>());
