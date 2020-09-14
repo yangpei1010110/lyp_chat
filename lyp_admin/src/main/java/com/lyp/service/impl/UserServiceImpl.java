@@ -45,8 +45,6 @@ public class UserServiceImpl implements UserService {
         try {
             //尝试登陆
             subject.login(new UsernamePasswordToken(username, password, remember));
-
-
         }catch (AuthenticationException authenticationException){
             authenticationException.printStackTrace();
         }
