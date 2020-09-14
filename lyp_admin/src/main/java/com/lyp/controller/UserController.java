@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,7 +32,7 @@ public class UserController {
      * 为游客或用户获取一个随机id
      */
     @GetMapping("/uuid")
-    private String getUUID() {
+    public String getUUID() {
         return UUID.randomUUID().toString();
     }
 
@@ -39,7 +40,7 @@ public class UserController {
      * 验证码的验证接口
      */
     @GetMapping("/test-verify-code")
-    private String testVerifyCode(String verifyCode, HttpSession session) {
+    public String testVerifyCode(String verifyCode, HttpSession session) {
         if (StringUtils.isEmpty(verifyCode)) {
             return "verify parameter error";
         } else if (StringUtils.isEmpty(session.getAttribute("verifyCode"))) {
@@ -55,7 +56,7 @@ public class UserController {
      * 获取验证码图像
      */
     @RequestMapping("/get-verify-code")
-    private void getVerifyCode(HttpServletResponse response, HttpSession session) {
+    public void getVerifyCode(HttpServletResponse response, HttpSession session) {
         if (StringUtils.isEmpty(session.getAttribute("verifyCode"))) {
             session.setAttribute("verifyCode", VerifyCodeUtils.generateVerifyCode(4));
         }
@@ -72,7 +73,7 @@ public class UserController {
      * 更新验证码
      */
     @GetMapping("/update-verify-code")
-    private String updateVerify(HttpSession session) {
+    public String updateVerify(HttpSession session) {
         session.setAttribute("verifyCode", VerifyCodeUtils.generateVerifyCode(4));
         return "success";
     }
@@ -87,7 +88,7 @@ public class UserController {
      * @param session  用于存放服务器端验证码
      */
     @PostMapping("/login")
-    private String login(String username, String password, Boolean remember, String verifyString, HttpSession session) {
+    public String login(String username, String password, Boolean remember, String verifyString, HttpSession session) {
         //根据线程id获取到不同的subject
         Subject subject = SecurityUtils.getSubject();
         if (subject.isAuthenticated()) {
@@ -108,20 +109,20 @@ public class UserController {
 
     //测试是否登录
     @GetMapping("/test")
-    private String test(String username, String password, String remember, String pin) {
+    public String test(String username, String password, String remember, String pin) {
         return String.valueOf(SecurityUtils.getSubject().isAuthenticated());
     }
 
     //登出
     @GetMapping("/logout")
-    private String logout() {
+    public String logout() {
         SecurityUtils.getSubject().logout();
         return "访问成功登出";
     }
 
     //注册
     @PostMapping("/logon")
-    private String logon(String username, String password, String verifyString, HttpSession session) {
+    public String logon(String username, String password, String verifyString, HttpSession session) {
         log.info(String.format("logon username:%s password:%s verifyString:%s",username,password,verifyString));
         Stream.of(session.getAttributeNames()).forEach(d->{
             String tempString = d.nextElement();
@@ -129,6 +130,7 @@ public class UserController {
         });
         return userService.logonUser(username, password, verifyString.toLowerCase(), session);
     }
+
 
 
 }
