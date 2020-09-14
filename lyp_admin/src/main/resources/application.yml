@@ -1,0 +1,38 @@
+server:
+  port: 8080
+
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  application:
+    name: lyp_admin
+  main:
+    allow-bean-definition-overriding: true
+  mvc:
+    static-path-pattern: /static/**
+  thymeleaf:
+    cache: false
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/lyp_chat?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
+    username: root
+    password: 123456
+  data:
+    jpa:
+      repositories:
+        bootstrap-mode: lazy
+  redis:
+    database: 0
+    port: 6379
+    host: localhost
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://47.100.246.42:10086/eureka/
+  instance:
+    prefer-ip-address: true

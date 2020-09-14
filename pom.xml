@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.lyp</groupId>
+    <artifactId>lyp_chat</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>lyp_admin</module>
+        <module>eureka</module>
+    </modules>
+    <packaging>pom</packaging>
+
+    <name>SpringBoot_Chat</name>
+    <description>Simple Test Web Application</description>
+
+    <!-- 属性设置 -->
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding><!-- 编译字符编码为utf-8 -->
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding><!-- 输出字符编码为UTF-8  -->
+        <java.version>1.8</java.version><!-- jdK版本 -->
+    </properties>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.2.0.RELEASE</version>
+    </parent>
+
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-dependencies -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-dependencies</artifactId>
+            <version>Finchley.RC1</version>
+            <type>pom</type>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
+    <!-- 编译 -->
+    <build>
+        <!-- 插件 -->
+        <plugins>
+            <!-- maven插件 -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

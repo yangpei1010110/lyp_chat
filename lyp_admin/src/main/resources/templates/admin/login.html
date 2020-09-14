@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <!-- import CSS -->
+    <link href="https://cdn.bootcss.com/element-ui/2.12.0/theme-chalk/index.css" rel="stylesheet">
+</head>
+<body>
+<div id="app">
+    <el-header></el-header>
+    <el-button @click="abc = true">Button</el-button>
+    <el-dialog :visible.sync="abc" title="Hello world">
+        <p>Try Element</p>
+    </el-dialog>
+</div>
+</body>
+<!-- import Vue before Element -->
+<script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+<!-- import JavaScript -->
+<script src="https://cdn.bootcss.com/element-ui/2.12.0/index.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: function() {
+            return { abc: false }
+        }
+    })
+</script>
+</html>
+
