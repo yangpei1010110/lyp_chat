@@ -67,13 +67,14 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public String logonUser(String username, String password, String verifyString, HttpSession session) {
-        if (StringUtils.hasText((String) session.getAttribute("verifyCode"))
-                && !((String) session.getAttribute("verifyCode")).toLowerCase().equals(verifyString)) {
+        if (StringUtils.hasText(String.valueOf(session.getAttribute("verifyCode")))
+                && !String.valueOf(session.getAttribute("verifyCode")).toLowerCase().equals(verifyString)) {
             session.setAttribute("verifyCode", VerifyCodeUtils.generateVerifyCode(4));//注册失败更新验证码
             return "验证码错误";
         } else if(StringUtils.isEmpty(username) || StringUtils.isEmpty(password) || StringUtils.isEmpty(verifyString)){
             return "提交信息不全";
         }else if (userDao.findByUsernameEquals(username) != null) {
+            
             return "用户名已存在";
         }
 

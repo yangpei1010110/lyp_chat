@@ -11,4 +11,7 @@ public interface UserRoleDao extends JpaRepository<UserRole, Long> {
     List<UserRole> findAllByRoleNameEquals(String roleName);
 
     UserRole findByRoleNameEquals(String roleName);
+
+
+
 }
