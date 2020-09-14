@@ -3,7 +3,7 @@ package com.lyp.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Data
@@ -27,16 +27,16 @@ public class User {
     @Column
     private Integer sex;//性别 无0 男1 女2
     @Column
-    private Date createDate;//创建时间
+    private Timestamp createDate;//创建时间
     @OneToOne
     private User createUser;//创建者
     @Column
-    private Date modifyDate;//修改时间
+    private Timestamp modifyDate;//修改时间
     @OneToOne
     private User modifyUser;//修改者
     @Column
-    private Date lastOnlineDate;//最后在线时间
+    private Timestamp lastOnlineDate;//最后在线时间
     @Column
-    private Date lastLoginDate;//最后一次登录时间
+    private Timestamp lastLoginDate;//最后一次登录时间
 
 }

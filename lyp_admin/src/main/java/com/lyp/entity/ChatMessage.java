@@ -3,7 +3,7 @@ package com.lyp.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Timestamp;
 
 @Data
 @Entity
@@ -16,11 +16,11 @@ public class ChatMessage {//单条消息
     @Column
     private Long userMessageId;//消息发送者的id
     @Column
-    private Date createDate;//创建时间
+    private Timestamp createDate;//创建时间
     @OneToOne
     private User createUser;//创建者
     @Column
-    private Date modifyDate;//修改时间
+    private Timestamp modifyDate;//修改时间
     @OneToOne
     private User modifyUser;//修改者
 }
