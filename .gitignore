@@ -1,3 +1,4 @@
 # Project exclude paths
 /eureka/target/
 /lyp_admin/target/
+/.idea/

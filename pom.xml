@@ -13,7 +13,7 @@
     </modules>
     <packaging>pom</packaging>
 
-    <name>SpringBoot_Chat</name>
+    <name>lyp_chat</name>
     <description>Simple Test Web Application</description>
 
     <!-- 属性设置 -->
